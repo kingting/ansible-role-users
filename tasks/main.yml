@@ -130,6 +130,13 @@
       groups: "{{ users_deploy_groups | join(',') }}"
       shell: /bin/bash
 
+  - name: Allow deploy user to run sudo with no password
+    become: true
+    copy:
+      src: etc/sudoers.d/deploy
+      dest: /etc/sudoers.d 
+      mode: 0600
+
   - name: Remove deploy user ssh keys
     file:
       path: "/home/{{ users_deploy_user }}/.ssh/authorized_keys"
