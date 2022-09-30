@@ -117,15 +117,21 @@
 - block:
 
   - name: Add deploy group
-    group: name={{ users_deploy_group }} state=present
+    group: 
+      name: "{{ users_deploy_group }}"
+      gid: "{{ users_deploy_group_id }}"
+      state: present
 
   - name: Create deploy groups
-    group: name={{ item }} state=present
+    group: 
+      name: "{{ item }}" 
+      state: present
     with_items: "{{ users_deploy_groups }}"
 
   - name: Add deploy user
     user:
       name: "{{ users_deploy_user }}"
+      uid: "{{ users_deploy_user_id }}"
       group: "{{ users_deploy_group }}"
       groups: "{{ users_deploy_groups | join(',') }}"
       shell: /bin/bash
